@@ -2,7 +2,7 @@
 {
     public class ResultDTO<T>
     {
-        public T Results { get; set; }
+        public T? Results { get; set; }
         public List<string> ErrorsMessages { get; set; }
         public List<string> Messages { get; set; }
         public int StatusCode { get; set; }

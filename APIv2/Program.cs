@@ -1,8 +1,7 @@
 using APIv2.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
-
-
+using APIv2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+ConfigureService.RegisterRepositories(builder.Services);
+ConfigureService.RegisterServices(builder.Services);
+ConfigureService.RegisterMappers(builder.Services);
 
 // Cargar variables de entorno
 Env.Load();
