@@ -1,5 +1,8 @@
 using APIv2.Data;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cargar variables de entorno
+Env.Load();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Leer cadena de conexion
+var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
+
+// Configurar cadena de conexion
 builder.Services.AddDbContextPool<PersonalDB>(
                        options => options.UseSqlServer(connectionString));
 
