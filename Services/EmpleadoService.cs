@@ -3,6 +3,8 @@ using APIv2.Models;
 using APIv2.Models.DTO;
 using APIv2.Repositories.Contracts;
 using APIv2.Services.Contracts;
+using Repositories;
+using Repositories.Contracts;
 using System.ComponentModel;
 
 namespace APIv2.Services
@@ -11,21 +13,40 @@ namespace APIv2.Services
     {
         private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IEmpleadoMapper _empleadoMapper;
-        public EmpleadoService(IEmpleadoRepository empleadoRepository, IEmpleadoMapper empleadoMapper)
+        private readonly ISectorRepository _sectorRepository;
+        private readonly IRolRepository _rolRepository;
+        public EmpleadoService(IEmpleadoRepository empleadoRepository, IEmpleadoMapper empleadoMapper, 
+            ISectorRepository sectorRepository, IRolRepository rolRepository)
         {
             _empleadoRepository = empleadoRepository;
             _empleadoMapper = empleadoMapper;
+            _sectorRepository = sectorRepository;
+            _rolRepository = rolRepository;
         }
 
         public Empleado AddEmpleado(EmpleadoDTO empDTO)
         {
             Empleado emp = _empleadoMapper.MapToEmpleado(empDTO);
             Empleado? empExistente = _empleadoRepository.GetById(emp.LegajoEmpleado);
-            if (empExistente == null)
+
+            if (empExistente != null)
             {
-                return _empleadoRepository.AddEmpleado(emp);
+                throw new Exception($"Ya existe un empleado con el legajo {emp.LegajoEmpleado}");
             }
-            throw new Exception($"Ya existe un empleado con el legajo {emp.LegajoEmpleado}");
+
+            Rol? rol = _rolRepository.GetById(empDTO.RolIdRol ?? 0);
+            if (rol == null)
+            {
+                throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
+            }
+
+            Sector? sector = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0);
+            if (sector == null)
+            {
+                throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
+            }
+
+            return _empleadoRepository.AddEmpleado(emp);
         }
 
         public bool DeleteEmpleado(int legajo)
@@ -42,6 +63,19 @@ namespace APIv2.Services
         public bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO)
         {
             Empleado empleadoEntidad = _empleadoMapper.MapToEmpleado(empDTO);
+
+            Rol? rol = _rolRepository.GetById(empDTO.RolIdRol ?? 0);
+            if (rol == null)
+            {
+                throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
+            }
+
+            Sector? sector = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0);
+            if (sector == null)
+            {
+                throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
+            }
+
             return _empleadoRepository.EditEmpleado(legajoEmpleado, empleadoEntidad);
         }
 
