@@ -13,12 +13,28 @@ namespace Mappers
     {
         public Rol MapToRol(RolDTO rolDTO)
         {
-            throw new NotImplementedException();
+            Rol rol = new Rol
+            {
+                IdRol = rolDTO.IdRol,
+                NombreRol = rolDTO.NombreRol,
+                DescripcionRol = rolDTO.DescripcionRol,
+                EstadoRol = rolDTO.EstadoRol
+            };
+
+            return rol;
         }
 
         public RolDTO MapToRolDTO(Rol rol)
         {
-            throw new NotImplementedException();
+            RolDTO rolDTO = new RolDTO
+            {
+                IdRol = rol.IdRol,
+                NombreRol = rol.NombreRol,
+                DescripcionRol = rol.DescripcionRol,
+                EstadoRol = rol.EstadoRol
+            };
+
+            return rolDTO;
         }
     }
 }
