@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using Validators.Contracts;
 using Mappers.Contracts;
 using Microsoft.AspNetCore.Identity;
+using APIv2.Services;
 
 namespace APIv2.Controllers
 {
@@ -28,7 +29,30 @@ namespace APIv2.Controllers
         [HttpGet]
         public ActionResult GetRoles()
         {
-            throw new NotImplementedException();
+            ResultDTO<List<RolDTO>> result = new ResultDTO<List<RolDTO>>();
+            result.Results = _rolService.GetAll();
+            result.StatusCode = Ok().StatusCode;
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{idRol:int}")]
+        public ActionResult GetRolById([FromRoute] int idRol)
+        {
+            ResultDTO<RolDTO> result = new ResultDTO<RolDTO>();
+            RolDTO? rol = _rolService.GetById(idRol);
+            if (rol == null)
+            {
+                result.ErrorsMessages.Add("Rol no encontrado!");
+                result.StatusCode = NotFound().StatusCode;
+                return NotFound(result);
+            }
+            else
+            {
+                result.Results = rol;
+                result.StatusCode = Ok().StatusCode;
+                return Ok(result);
+            }
         }
 
     }
