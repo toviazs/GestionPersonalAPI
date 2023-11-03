@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
-    public interface IHistorialsectorService
+    public interface IHistorialrolService
     {
-        public List<HistorialsectorDTO> GetManyByLegajo(int legajoEmp);
+        public List<HistorialrolDTO> GetManyByLegajo(int legajoEmp);
     }
 }
-
