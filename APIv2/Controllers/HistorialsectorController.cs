@@ -16,25 +16,25 @@ using Microsoft.IdentityModel.Tokens;
 namespace APIv2.Controllers
 {
     [ApiController]
-    [Route("HistorialRol")]
-    public class HistorialrolController : Controller
+    [Route("HistorialSector")]
+    public class HistorialsectorController : Controller
     {
-        private readonly IHistorialrolService _histRolService;
-        private readonly IHistorialrolMapper _histRolMapper;
+        private readonly IHistorialsectorService _histSectorService;
+        private readonly IHistorialsectorMapper _histSectorMapper;
 
-        public HistorialrolController(IHistorialrolService histRolService, IHistorialrolMapper histRolMapper)
+        public HistorialsectorController(IHistorialsectorService histSectorService, IHistorialsectorMapper histSectorMapper)
         {
-            _histRolService = histRolService;
-            _histRolMapper = histRolMapper;
+            _histSectorService = histSectorService;
+            _histSectorMapper = histSectorMapper;
         }
 
         [HttpGet]
         [Route("{legajoEmp:int}")]
         public ActionResult GetSectorById([FromRoute] int legajoEmp)
         {
-            ResultDTO<List<HistorialrolDTO>> result = new ResultDTO<List<HistorialrolDTO>>();
-            List<HistorialrolDTO> histRols = _histRolService.GetManyByLegajo(legajoEmp);
-            if (histRols.IsNullOrEmpty())
+            ResultDTO<List<HistorialsectorDTO>> result = new ResultDTO<List<HistorialsectorDTO>>();
+            List<HistorialsectorDTO> histSectors = _histSectorService.GetManyByLegajo(legajoEmp);
+            if (histSectors.IsNullOrEmpty())
             {
                 result.ErrorsMessages.Add("Legajo no encontrado!");
                 result.StatusCode = NotFound().StatusCode;
@@ -42,7 +42,7 @@ namespace APIv2.Controllers
             }
             else
             {
-                result.Results = histRols;
+                result.Results = histSectors;
                 result.StatusCode = Ok().StatusCode;
                 return Ok(result);
             }
