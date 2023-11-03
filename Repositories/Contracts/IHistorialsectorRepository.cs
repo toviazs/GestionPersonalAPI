@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Repositories.Contracts
 {
-    public interface IHistorialsectorRepository : IBaseRepository
+    public interface IHistorialrolRepository : IBaseRepository
     {
-        public List<Historialsector> GetManyByLegajo(int legajoEmp);
+        public List<Historialrol> GetManyByLegajo(int legajoEmp);
     }
 }
