@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 ConfigureService.RegisterRepositories(builder.Services);
 ConfigureService.RegisterServices(builder.Services);
 ConfigureService.RegisterMappers(builder.Services);
+ConfigureService.RegisterValidators(builder.Services);
 
 // Cargar variables de entorno
 Env.Load();

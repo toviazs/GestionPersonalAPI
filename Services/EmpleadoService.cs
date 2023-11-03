@@ -3,6 +3,7 @@ using APIv2.Models;
 using APIv2.Models.DTO;
 using APIv2.Repositories.Contracts;
 using APIv2.Services.Contracts;
+using System.ComponentModel;
 
 namespace APIv2.Services
 {
@@ -18,17 +19,30 @@ namespace APIv2.Services
 
         public Empleado AddEmpleado(EmpleadoDTO empDTO)
         {
-            throw new NotImplementedException();
+            Empleado emp = _empleadoMapper.MapToEmpleado(empDTO);
+            Empleado? empExistente = _empleadoRepository.GetById(emp.LegajoEmpleado);
+            if (empExistente == null)
+            {
+                return _empleadoRepository.AddEmpleado(emp);
+            }
+            throw new Exception($"Ya existe un empleado con el legajo {emp.LegajoEmpleado}");
         }
 
-        public void DeleteEmpleado(Empleado emp)
+        public bool DeleteEmpleado(int legajo)
         {
-            throw new NotImplementedException();
+            Empleado? empleado = _empleadoRepository.GetById(legajo);
+            if (empleado == null || empleado.EstadoEmpleado == "I")
+            {
+                return false;
+            }
+            _empleadoRepository.DeleteEmpleado(empleado);
+            return true;
         }
 
         public bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO)
         {
-            throw new NotImplementedException();
+            Empleado empleadoEntidad = _empleadoMapper.MapToEmpleado(empDTO);
+            return _empleadoRepository.EditEmpleado(legajoEmpleado, empleadoEntidad);
         }
 
         public List<EmpleadoDTO> GetAll()  
@@ -41,12 +55,21 @@ namespace APIv2.Services
 
         public EmpleadoDTO? GetById(int legajo)
         {
-            throw new NotImplementedException();
+            Empleado? empleado = _empleadoRepository.GetById(legajo);
+            if (empleado == null)
+            {
+                return null;
+            }
+            else
+            {
+                EmpleadoDTO empleadoDTO = _empleadoMapper.MapToEmpleadoDTO(empleado);
+                return empleadoDTO;
+            }
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _empleadoRepository.SaveChanges();
         }
     }
 }

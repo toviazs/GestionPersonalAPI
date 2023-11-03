@@ -28,6 +28,15 @@ namespace APIv2
             RegisterTypes(servicesCollection, serviceInterfaces, serviceImplementations);
         }
 
+
+        public static void RegisterValidators(IServiceCollection servicesCollection)
+        {
+            List<Type> serviceAssemblyTypes = Assembly.Load("Validators").ExportedTypes.Where(a => a.Name.ToLower().EndsWith("validator")).ToList();
+            List<Type> serviceInterfaces = serviceAssemblyTypes.Where(a => a.IsInterface).ToList();
+            List<Type> serviceImplementations = serviceAssemblyTypes.Where(a => a.IsClass).ToList();
+            RegisterTypes(servicesCollection, serviceInterfaces, serviceImplementations);
+        }
+
         private static void RegisterTypes(IServiceCollection servicesCollection, List<Type> interfaces, List<Type> implementations)
         {
             foreach (Type interfaceType in interfaces)

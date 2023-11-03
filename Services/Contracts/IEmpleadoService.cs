@@ -9,7 +9,7 @@ namespace APIv2.Services.Contracts
         public EmpleadoDTO? GetById(int legajo);
         public Empleado AddEmpleado(EmpleadoDTO empDTO);
         bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO);
-        public void DeleteEmpleado(Empleado emp);
+        public bool DeleteEmpleado(int legajo);
         public void SaveChanges();
     }
 }
