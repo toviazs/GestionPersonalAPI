@@ -6,6 +6,6 @@ namespace APIv2.Services.Contracts
     public interface IRolService
     {
         public List<RolDTO> GetAll();
-        public RolDTO? GetById(int rolId);
+        public RolDTO? GetById(int idRol);
     }
 }
