@@ -1,4 +1,5 @@
-﻿using APIv2.Models;
+﻿using APIv2.Data;
+using APIv2.Models;
 using Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,22 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class RolRepository : IRolRepository
+    public class RolRepository : BaseRepository, IRolRepository
     {
-        public List<Empleado> GetAll()
+        private PersonalDB _personalDb;
+        public RolRepository(PersonalDB personalDb) : base(personalDb)
         {
-            throw new NotImplementedException();
+            _personalDb = personalDb;
         }
 
-        public Empleado? GetById(int legajo)
+        public List<Rol> GetAll()
         {
-            throw new NotImplementedException();
+            return _personalDb.Rols.ToList();
         }
 
-        public void SaveChanges()
+        public Rol? GetById(int idRol)
         {
-            throw new NotImplementedException();
+            return _personalDb.Rols.FirstOrDefault(rol => rol.IdRol == idRol);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Repositories.Contracts
 {
     public interface IRolRepository : IBaseRepository
     {
-        public List<Empleado> GetAll();
-        public Empleado? GetById(int legajo);
+        public List<Rol> GetAll();
+        public Rol? GetById(int idRol);
     }
 }
