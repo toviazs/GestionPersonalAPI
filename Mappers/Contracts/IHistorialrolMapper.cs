@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Mappers.Contracts
 {
-    public interface IHistorialrolMapper
+    public interface IHistorialsectorMapper
     {
-        public Historialrol MapToHistorialrol(HistorialrolDTO histRol);
-        public HistorialrolDTO MapToHistorialrolDTO(Historialrol histRolDTO);
+        public Historialsector MapToHistorialsector(HistorialsectorDTO histSector);
+        public HistorialsectorDTO MapToHistorialsectorDTO(Historialsector histSectorDTO);
     }
 }
