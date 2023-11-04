@@ -18,7 +18,6 @@ namespace Mappers
                 IdRol = rolDTO.IdRol,
                 NombreRol = rolDTO.NombreRol,
                 DescripcionRol = rolDTO.DescripcionRol,
-                EstadoRol = rolDTO.EstadoRol
             };
 
             return rol;
@@ -31,7 +30,6 @@ namespace Mappers
                 IdRol = rol.IdRol,
                 NombreRol = rol.NombreRol,
                 DescripcionRol = rol.DescripcionRol,
-                EstadoRol = rol.EstadoRol
             };
 
             return rolDTO;

@@ -49,7 +49,10 @@ namespace APIv2.Repositories
 
         public List<Empleado> GetAll()
         {
-            return _personalDb.Empleados.ToList();
+            return _personalDb.Empleados
+                .Include(e => e.SectorIdSectorNavigation)
+                .Include(e => e.RolIdRolNavigation)
+                .ToList();
         }
 
         public Empleado? GetById(int legajo)

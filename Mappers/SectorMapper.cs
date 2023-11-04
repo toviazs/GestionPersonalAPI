@@ -18,7 +18,6 @@ namespace Mappers
                 IdSector = sectorDTO.IdSector,
                 NombreSector = sectorDTO.NombreSector,
                 DescripcionSector = sectorDTO.DescripcionSector,
-                EstadoSector = sectorDTO.EstadoSector
             };
 
             return sector;
@@ -31,7 +30,6 @@ namespace Mappers
                 IdSector = sector.IdSector,
                 NombreSector = sector.NombreSector,
                 DescripcionSector = sector.DescripcionSector,
-                EstadoSector = sector.EstadoSector
             };
 
             return sectorDTO;

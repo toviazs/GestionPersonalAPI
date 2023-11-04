@@ -7,5 +7,6 @@ namespace APIv2.Mappers.Contracts
     {
         public Empleado MapToEmpleado(EmpleadoDTO empleadoDTO);
         public EmpleadoDTO MapToEmpleadoDTO(Empleado empleado);
+        public EmpleadoDetalleDTO MapToEmpleadoDetalleDTO(Empleado empleado);
     }
 }

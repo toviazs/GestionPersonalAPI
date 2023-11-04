@@ -3,6 +3,7 @@ using APIv2.Models;
 using APIv2.Models.DTO;
 using APIv2.Repositories.Contracts;
 using APIv2.Services.Contracts;
+using Mappers.Contracts;
 using Repositories;
 using Repositories.Contracts;
 using System.ComponentModel;
@@ -15,13 +16,15 @@ namespace APIv2.Services
         private readonly IEmpleadoMapper _empleadoMapper;
         private readonly ISectorRepository _sectorRepository;
         private readonly IRolRepository _rolRepository;
+        private readonly IRolMapper _rolMapper;
         public EmpleadoService(IEmpleadoRepository empleadoRepository, IEmpleadoMapper empleadoMapper, 
-            ISectorRepository sectorRepository, IRolRepository rolRepository)
+            ISectorRepository sectorRepository, IRolRepository rolRepository, IRolMapper rolMapper)
         {
             _empleadoRepository = empleadoRepository;
             _empleadoMapper = empleadoMapper;
             _sectorRepository = sectorRepository;
             _rolRepository = rolRepository;
+            _rolMapper = rolMapper;
         }
 
         public Empleado AddEmpleado(EmpleadoDTO empDTO)
@@ -84,6 +87,14 @@ namespace APIv2.Services
             List<EmpleadoDTO> empleados = new List<EmpleadoDTO>();
             empleados = _empleadoRepository.GetAll()
                 .Select(emp => _empleadoMapper.MapToEmpleadoDTO(emp)).ToList();
+            return empleados;
+        }
+
+        public List<EmpleadoDetalleDTO> GetAllEmpleadoDetalle()
+        {
+            List<EmpleadoDetalleDTO> empleados = new List<EmpleadoDetalleDTO>();
+            empleados = _empleadoRepository.GetAll()
+                .Select(emp => _empleadoMapper.MapToEmpleadoDetalleDTO(emp)).ToList();
             return empleados;
         }
 

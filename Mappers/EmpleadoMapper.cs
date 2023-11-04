@@ -30,6 +30,53 @@ namespace APIv2.Mappers
             return empleado;
         }
 
+        public EmpleadoDetalleDTO MapToEmpleadoDetalleDTO(Empleado empleado)
+        {
+            RolDTO rolDTO = null;
+            SectorDTO sectorDTO = null;
+
+            if (empleado.RolIdRolNavigation != null) 
+            {
+                rolDTO = new RolDTO
+                {
+                    IdRol = empleado.RolIdRolNavigation.IdRol,
+                    NombreRol = empleado.RolIdRolNavigation.NombreRol,
+                    DescripcionRol = empleado.RolIdRolNavigation.DescripcionRol
+                };
+            }    
+
+            if (empleado.SectorIdSectorNavigation != null)
+            {
+                sectorDTO = new SectorDTO
+                {
+                    IdSector = empleado.SectorIdSectorNavigation.IdSector,
+                    NombreSector = empleado.SectorIdSectorNavigation.NombreSector,
+                    DescripcionSector = empleado.SectorIdSectorNavigation.DescripcionSector
+                };
+            }
+
+            EmpleadoDetalleDTO empDetDTO = new EmpleadoDetalleDTO
+            {
+                LegajoEmpleado = empleado.LegajoEmpleado,
+                NombreEmpleado = empleado.NombreEmpleado,
+                ApellidoEmpleado = empleado.ApellidoEmpleado,
+                FechaNacimiento = empleado.FechaNacimiento,
+                Genero = empleado.Genero,
+                Direccion = empleado.Direccion,
+                Telefono = empleado.Telefono,
+                Correo = empleado.Correo,
+                FechaContratacion = empleado.FechaContratacion,
+                Cuil = empleado.Cuil,
+                FechaFinContrato = empleado.FechaFinContrato,
+                LegajoSupervisor = empleado.LegajoSupervisor,
+                EstadoEmpleado = empleado.EstadoEmpleado,
+                Rol = rolDTO,
+                Sector = sectorDTO
+            };
+
+            return empDetDTO;
+        }
+
         public EmpleadoDTO MapToEmpleadoDTO(Empleado empleado)
         {
             EmpleadoDTO empleadoDTO = new EmpleadoDTO

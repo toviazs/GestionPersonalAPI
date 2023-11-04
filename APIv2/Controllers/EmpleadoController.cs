@@ -35,6 +35,16 @@ namespace APIv2.Controllers
         }
 
         [HttpGet]
+        [Route("Detalle")]
+        public ActionResult GetEmpleadosFull()
+        {
+            ResultDTO<List<EmpleadoDetalleDTO>> result = new ResultDTO<List<EmpleadoDetalleDTO>>();
+            result.Results = _empleadoService.GetAllEmpleadoDetalle();
+            result.StatusCode = Ok().StatusCode;
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("{legajoEmp:int}")]
         public ActionResult GetEmpleadoByLegajo([FromRoute] int legajoEmp)
         {
