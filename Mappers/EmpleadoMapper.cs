@@ -32,8 +32,8 @@ namespace APIv2.Mappers
 
         public EmpleadoDetalleDTO MapToEmpleadoDetalleDTO(Empleado empleado)
         {
-            RolDTO rolDTO = null;
-            SectorDTO sectorDTO = null;
+            RolDTO? rolDTO = null;
+            SectorDTO? sectorDTO = null;
 
             if (empleado.RolIdRolNavigation != null) 
             {
