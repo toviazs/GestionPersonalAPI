@@ -7,6 +7,7 @@ namespace APIv2.Services.Contracts
     {
         public List<EmpleadoDTO> GetAll();
         public List<EmpleadoDetalleDTO> GetAllEmpleadoDetalle();
+        public EmpleadoDetalleDTO? GetEmpleadoDetalleById(int legajo);
         public EmpleadoDTO? GetById(int legajo);
         public Empleado AddEmpleado(EmpleadoDTO empDTO);
         bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO);

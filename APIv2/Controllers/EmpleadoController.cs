@@ -36,12 +36,32 @@ namespace APIv2.Controllers
 
         [HttpGet]
         [Route("Detalle")]
-        public ActionResult GetEmpleadosFull()
+        public ActionResult GetEmpleadosDetalle()
         {
             ResultDTO<List<EmpleadoDetalleDTO>> result = new ResultDTO<List<EmpleadoDetalleDTO>>();
             result.Results = _empleadoService.GetAllEmpleadoDetalle();
             result.StatusCode = Ok().StatusCode;
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("Detalle/{legajoEmp:int}")]
+        public ActionResult GetEmpleadoDetalle([FromRoute] int legajoEmp)
+        {
+            ResultDTO<EmpleadoDetalleDTO> result = new ResultDTO<EmpleadoDetalleDTO>();
+            EmpleadoDetalleDTO? emp = _empleadoService.GetEmpleadoDetalleById(legajoEmp);
+            if (emp == null)
+            {
+                result.ErrorsMessages.Add("Empleado no encontrado!");
+                result.StatusCode = NotFound().StatusCode;
+                return NotFound(result);
+            }
+            else
+            {
+                result.Results = emp;
+                result.StatusCode = Ok().StatusCode;
+                return Ok(result);
+            }
         }
 
         [HttpGet]
@@ -71,7 +91,7 @@ namespace APIv2.Controllers
             // Verificar si empleado es valido
             if(!ModelState.IsValid || legajoEmp != empleado.LegajoEmpleado)
             {
-                result.Messages.Add("Empleado no valido");
+                result.ErrorsMessages.Add("Empleado no valido");
                 result.StatusCode = BadRequest().StatusCode;
                 return BadRequest(result);
             }
@@ -79,7 +99,7 @@ namespace APIv2.Controllers
             // Verificar si cumple requisitos de campo
             if(!_empleadoValidator.IsValid(empleado))
             {
-                result.Messages.AddRange(_empleadoValidator.GetErrors(empleado));
+                result.ErrorsMessages.AddRange(_empleadoValidator.GetErrors(empleado));
                 result.StatusCode = BadRequest().StatusCode;
                 return BadRequest(result);
             }
@@ -108,7 +128,7 @@ namespace APIv2.Controllers
             bool isDeleted = _empleadoService.DeleteEmpleado(legajoEmp);
             if(!isDeleted)
             {
-                result.Messages.Add("Empleado no encontrado");
+                result.ErrorsMessages.Add("Empleado no encontrado");
                 result.StatusCode = NotFound().StatusCode;
                 return NotFound(result);
             }
@@ -128,7 +148,7 @@ namespace APIv2.Controllers
             // Verificar si empleado es valido
             if (!ModelState.IsValid)
             {
-                result.Messages.Add("Empleado no valido");
+                result.ErrorsMessages.Add("Empleado no valido");
                 result.StatusCode = BadRequest().StatusCode;
                 return BadRequest(result);
             }

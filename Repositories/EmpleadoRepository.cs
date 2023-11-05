@@ -57,7 +57,11 @@ namespace APIv2.Repositories
 
         public Empleado? GetById(int legajo)
         {
-            return _personalDb.Empleados.FirstOrDefault(emp => emp.LegajoEmpleado == legajo);
+            return _personalDb.Empleados
+                .Include(e => e.SectorIdSectorNavigation)
+                .Include(e => e.RolIdRolNavigation)
+                .ToList()
+                .FirstOrDefault(emp => emp.LegajoEmpleado == legajo);
         }
     }
 }

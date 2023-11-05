@@ -98,6 +98,20 @@ namespace APIv2.Services
             return empleados;
         }
 
+        public EmpleadoDetalleDTO? GetEmpleadoDetalleById(int legajo)
+        {
+            Empleado? empleado = _empleadoRepository.GetById(legajo);
+            if (empleado == null)
+            {
+                return null;
+            }
+            else
+            {
+                EmpleadoDetalleDTO empDetDTO = _empleadoMapper.MapToEmpleadoDetalleDTO(empleado);
+                return empDetDTO;
+            }
+        }
+
         public EmpleadoDTO? GetById(int legajo)
         {
             Empleado? empleado = _empleadoRepository.GetById(legajo);
