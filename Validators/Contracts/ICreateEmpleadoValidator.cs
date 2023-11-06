@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Validators.Contracts
 {
-    public interface IEmpleadoValidator
+    public interface ICreateEmpleadoValidator
     {
-        public bool IsValid(EmpleadoDTO empleado);
-        public List<string> GetErrors(EmpleadoDTO empleado);
+        public bool IsValid(CreateEmpleadoDTO empleado);
+        public List<string> GetErrors(CreateEmpleadoDTO empleado);
     }
 }

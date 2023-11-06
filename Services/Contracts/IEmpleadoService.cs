@@ -1,5 +1,6 @@
 ﻿using APIv2.Models;
 using APIv2.Models.DTO;
+using Models.DTO;
 
 namespace APIv2.Services.Contracts
 {
@@ -9,7 +10,7 @@ namespace APIv2.Services.Contracts
         public List<EmpleadoDetalleDTO> GetAllEmpleadoDetalle();
         public EmpleadoDetalleDTO? GetEmpleadoDetalleById(int legajo);
         public EmpleadoDTO? GetById(int legajo);
-        public Empleado AddEmpleado(EmpleadoDTO empDTO);
+        public Empleado AddEmpleado(CreateEmpleadoDTO empDTO);
         bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO);
         public bool DeleteEmpleado(int legajo);
         public void SaveChanges();

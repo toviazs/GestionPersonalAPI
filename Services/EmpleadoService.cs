@@ -4,6 +4,7 @@ using APIv2.Models.DTO;
 using APIv2.Repositories.Contracts;
 using APIv2.Services.Contracts;
 using Mappers.Contracts;
+using Models.DTO;
 using Repositories;
 using Repositories.Contracts;
 using System.ComponentModel;
@@ -27,7 +28,7 @@ namespace APIv2.Services
             _rolMapper = rolMapper;
         }
 
-        public Empleado AddEmpleado(EmpleadoDTO empDTO)
+        public Empleado AddEmpleado(CreateEmpleadoDTO empDTO)
         {
             Empleado emp = _empleadoMapper.MapToEmpleado(empDTO);
             Empleado? empExistente = _empleadoRepository.GetById(emp.LegajoEmpleado);

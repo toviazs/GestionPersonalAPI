@@ -29,7 +29,7 @@ public partial class Empleado
 
     public int? LegajoSupervisor { get; set; }
 
-    public string? EstadoEmpleado { get; set; }
+    public string? EstadoEmpleado { get; set; } = "A";
 
     public int? RolIdRol { get; set; }
 

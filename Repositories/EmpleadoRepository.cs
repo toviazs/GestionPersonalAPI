@@ -32,8 +32,10 @@ namespace APIv2.Repositories
 
         public bool EditEmpleado(int legajoEmpleado, Empleado emp)
         {
-            Empleado? empleadoExistente = _personalDb.Empleados.Find(legajoEmpleado);
-            if (empleadoExistente == null)
+            Empleado? empleadoExistente = _personalDb.Empleados
+                .Find(legajoEmpleado);
+
+            if (empleadoExistente == null || empleadoExistente.EstadoEmpleado == "I")
             {
                 return false;
             }
@@ -52,6 +54,7 @@ namespace APIv2.Repositories
             return _personalDb.Empleados
                 .Include(e => e.SectorIdSectorNavigation)
                 .Include(e => e.RolIdRolNavigation)
+                .Where(e => e.EstadoEmpleado == "A")
                 .ToList();
         }
 
@@ -60,6 +63,7 @@ namespace APIv2.Repositories
             return _personalDb.Empleados
                 .Include(e => e.SectorIdSectorNavigation)
                 .Include(e => e.RolIdRolNavigation)
+                .Where(e => e.EstadoEmpleado == "A")
                 .ToList()
                 .FirstOrDefault(emp => emp.LegajoEmpleado == legajo);
         }

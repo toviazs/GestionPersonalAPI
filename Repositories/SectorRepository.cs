@@ -18,12 +18,17 @@ namespace Repositories
         }
         public List<Sector> GetAll()
         {
-            return _personalDb.Sectors.ToList();
+            return _personalDb.Sectors
+                .Where(sector => sector.EstadoSector == "A")
+                .ToList();
         }
 
         public Sector? GetById(int idSector)
         {
-            return _personalDb.Sectors.FirstOrDefault(sector => sector.IdSector == idSector);
+            return _personalDb.Sectors
+                .Where(sector => sector.EstadoSector == "A")
+                .ToList()
+                .FirstOrDefault(sector => sector.IdSector == idSector);
         }
     }
 }

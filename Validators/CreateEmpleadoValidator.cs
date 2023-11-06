@@ -11,9 +11,9 @@ using Models.DTO;
 
 namespace Validators
 {
-    public class EmpleadoValidator : AbstractValidator<EmpleadoDTO>, IEmpleadoValidator
+    public class CreateEmpleadoValidator : AbstractValidator<CreateEmpleadoDTO>, ICreateEmpleadoValidator
     {
-        public EmpleadoValidator()
+        public CreateEmpleadoValidator()
         {
             RuleFor(e => e.ApellidoEmpleado).MaximumLength(200);
             RuleFor(e => e.Correo).MaximumLength(200);
@@ -24,26 +24,13 @@ namespace Validators
             RuleFor(e => e.Genero).Length(1).Matches(@"^(F|M)$").WithMessage("El Género debe ser M(asculino) o F(emenino)");
             RuleFor(e => e.NombreEmpleado).MaximumLength(200);
             RuleFor(e => e.Telefono).MaximumLength(20);
-            RuleFor(e => e).Must(ValidContractDates).WithMessage("Las fechas de inicio y fin de contrato no son coherentes");
         }
 
-        public bool ValidContractDates(EmpleadoDTO empleadoDTO)
-        {
-            if (empleadoDTO.FechaFinContrato != null)
-            {
-                return empleadoDTO.FechaFinContrato >= empleadoDTO.FechaContratacion;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public bool IsValid(EmpleadoDTO empleado)
+        public bool IsValid(CreateEmpleadoDTO empleado)
         {
             return base.Validate(empleado).IsValid;
         }
-        public List<string> GetErrors(EmpleadoDTO empleado)
+        public List<string> GetErrors(CreateEmpleadoDTO empleado)
         {
             return base.Validate(empleado).Errors.Select(err => err.ToString()).ToList();
         }

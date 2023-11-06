@@ -19,12 +19,17 @@ namespace Repositories
 
         public List<Rol> GetAll()
         {
-            return _personalDb.Rols.ToList();
+            return _personalDb.Rols
+                .Where(rol => rol.EstadoRol == "A")
+                .ToList();
         }
 
         public Rol? GetById(int idRol)
         {
-            return _personalDb.Rols.FirstOrDefault(rol => rol.IdRol == idRol);
+            return _personalDb.Rols
+                .Where(rol => rol.EstadoRol == "A")
+                .ToList()
+                .FirstOrDefault(rol => rol.IdRol == idRol);
         }
     }
 }

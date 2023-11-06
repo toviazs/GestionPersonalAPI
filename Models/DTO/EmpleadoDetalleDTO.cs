@@ -14,7 +14,6 @@
         public long Cuil { get; set; }
         public DateTime? FechaFinContrato { get; set; }
         public int? LegajoSupervisor { get; set; }
-        public string? EstadoEmpleado { get; set; }
         public virtual RolDTO? Rol { get; set; }
         public virtual SectorDTO? Sector { get; set; }
     }

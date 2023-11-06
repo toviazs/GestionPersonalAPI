@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using APIv2.Data.Configurations;
 using System.ComponentModel.DataAnnotations;
 using Validators.Contracts;
+using Models.DTO;
 
 namespace APIv2.Controllers
 {
@@ -16,12 +17,14 @@ namespace APIv2.Controllers
     {
         private readonly IEmpleadoService _empleadoService;
         private readonly IEmpleadoMapper _empleadoMapper;
+        private readonly ICreateEmpleadoValidator _createEmpleadoValidator;
         private readonly IEmpleadoValidator _empleadoValidator;
 
-        public EmpleadoController(IEmpleadoService empleadoService, IEmpleadoMapper empleadoMapper, IEmpleadoValidator empleadoValidator)
+        public EmpleadoController(IEmpleadoService empleadoService, IEmpleadoMapper empleadoMapper, ICreateEmpleadoValidator createEmpleadoValidator, IEmpleadoValidator empleadoValidator)
         {
             _empleadoService = empleadoService;
             _empleadoMapper = empleadoMapper;
+            _createEmpleadoValidator = createEmpleadoValidator;
             _empleadoValidator = empleadoValidator;
         }
 
@@ -141,7 +144,7 @@ namespace APIv2.Controllers
         }
 
         [HttpPost]
-        public ActionResult CrearEmpleado([FromBody] EmpleadoDTO empleado)
+        public ActionResult CrearEmpleado([FromBody] CreateEmpleadoDTO empleado)
         {
             ResultDTO<EmpleadoDTO> result = new ResultDTO<EmpleadoDTO>();
 
@@ -154,9 +157,9 @@ namespace APIv2.Controllers
             }
 
             // Verificar si cumple requisitos de campo
-            if (!_empleadoValidator.IsValid(empleado))
+            if (!_createEmpleadoValidator.IsValid(empleado))
             {
-                result.Messages.AddRange(_empleadoValidator.GetErrors(empleado));
+                result.Messages.AddRange(_createEmpleadoValidator.GetErrors(empleado));
                 result.StatusCode = BadRequest().StatusCode;
                 return BadRequest(result);
             }
