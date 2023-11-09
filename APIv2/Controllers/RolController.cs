@@ -10,9 +10,11 @@ using Validators.Contracts;
 using Mappers.Contracts;
 using Microsoft.AspNetCore.Identity;
 using APIv2.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIv2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("Rol")]
     public class RolController : Controller

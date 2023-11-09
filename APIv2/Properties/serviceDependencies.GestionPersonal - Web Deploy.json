@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "apis1": {
+      "apiEndpoint": "https://gestionpersonalapi.azure-api.net/",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/GestionPersonalAPI/apis/GestionPersonalAPI",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/GestionPersonal/providers/Microsoft.ServiceLinker/linkers/DefaultConnection_BA659F212A",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/gestionpersonaldbdbserver/databases/gestionPersonalDB",
+      "type": "mssql.azure",
+      "connectionId": "DefaultConnection"
+    }
+  }
+}

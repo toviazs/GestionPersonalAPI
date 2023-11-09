@@ -8,9 +8,11 @@ using APIv2.Data.Configurations;
 using System.ComponentModel.DataAnnotations;
 using Validators.Contracts;
 using Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIv2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("Empleado")]
     public class EmpleadoController : Controller

@@ -11,9 +11,11 @@ using Mappers.Contracts;
 using Microsoft.AspNetCore.Identity;
 using APIv2.Services;
 using Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIv2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("Sector")]
     public class SectorController : Controller

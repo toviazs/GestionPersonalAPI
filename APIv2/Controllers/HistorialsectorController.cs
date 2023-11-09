@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Identity;
 using APIv2.Services;
 using Services.Contracts;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIv2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("HistorialSector")]
     public class HistorialsectorController : Controller
