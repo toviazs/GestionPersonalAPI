@@ -28,34 +28,35 @@ namespace APIv2.Services
             _rolMapper = rolMapper;
         }
 
-        public Empleado AddEmpleado(CreateEmpleadoDTO empDTO)
+        public EmpleadoDTO AddEmpleado(CreateEmpleadoDTO empDTO)
         {
             Empleado emp = _empleadoMapper.MapToEmpleado(empDTO);
             Empleado? empExistente = _empleadoRepository.GetById(emp.LegajoEmpleado);
 
+            // Unique
             if (empExistente != null)
             {
-                throw new Exception($"Ya existe un empleado con el legajo {emp.LegajoEmpleado}");
+                throw new Exception($"Ya existe un empleado con el legajo {emp.LegajoEmpleado}.");
             }
 
-            Rol? rol = _rolRepository.GetById(empDTO.RolIdRol ?? 0);
-            if (rol == null)
-            {
-                throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
-            }
+            // Valid supervisor
+            int legajoSupervisor = empDTO.LegajoSupervisor ?? 0;
+            _ = _empleadoRepository.GetById(legajoSupervisor) ?? throw new Exception($"No existe ningún empleado supervisor con el legajo {legajoSupervisor}.");
 
-            Sector? sector = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0);
-            if (sector == null)
-            {
-                throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
-            }
+            // Valid rol
+            _ = _rolRepository.GetById(empDTO.RolIdRol ?? 0) ?? throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
 
-            return _empleadoRepository.AddEmpleado(emp);
+            // Valid sector
+            _ = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0) ?? throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
+
+            return _empleadoMapper.MapToEmpleadoDTO(_empleadoRepository.AddEmpleado(emp));
         }
 
         public bool DeleteEmpleado(int legajo)
         {
             Empleado? empleado = _empleadoRepository.GetById(legajo);
+
+            // Valid/active employee
             if (empleado == null || empleado.EstadoEmpleado == "I")
             {
                 return false;
@@ -68,16 +69,20 @@ namespace APIv2.Services
         {
             Empleado empleadoEntidad = _empleadoMapper.MapToEmpleado(empDTO);
 
-            Rol? rol = _rolRepository.GetById(empDTO.RolIdRol ?? 0);
-            if (rol == null)
-            {
-                throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
-            }
+            // Valid rol
+            _ = _rolRepository.GetById(empDTO.RolIdRol ?? 0) ?? throw new Exception($"No existe un rol con id {empDTO.RolIdRol}");
 
-            Sector? sector = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0);
-            if (sector == null)
+            // Valid sector
+            _ = _sectorRepository.GetById(empDTO.SectorIdSector ?? 0) ?? throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
+
+            // Valid supervisor
+            int legajoSupervisor = empDTO.LegajoSupervisor ?? 0;
+            _ = _empleadoRepository.GetById(legajoSupervisor) ?? throw new Exception($"No existe ningún empleado supervisor con el legajo {legajoSupervisor}.");
+
+            // Employee != supervisor
+            if (legajoSupervisor == legajoEmpleado)
             {
-                throw new Exception($"No existe un sector con id {empDTO.SectorIdSector}");
+                throw new Exception($"El empleado con legajo {legajoEmpleado} no puede supervisarse a sí mismo.");
             }
 
             return _empleadoRepository.EditEmpleado(legajoEmpleado, empleadoEntidad);
@@ -102,29 +107,29 @@ namespace APIv2.Services
         public EmpleadoDetalleDTO? GetEmpleadoDetalleById(int legajo)
         {
             Empleado? empleado = _empleadoRepository.GetById(legajo);
+
+            // Existing employee
             if (empleado == null)
             {
                 return null;
             }
-            else
-            {
-                EmpleadoDetalleDTO empDetDTO = _empleadoMapper.MapToEmpleadoDetalleDTO(empleado);
-                return empDetDTO;
-            }
+            
+            EmpleadoDetalleDTO empDetDTO = _empleadoMapper.MapToEmpleadoDetalleDTO(empleado);
+            return empDetDTO;
         }
 
         public EmpleadoDTO? GetById(int legajo)
         {
             Empleado? empleado = _empleadoRepository.GetById(legajo);
+
+            // Existing employee
             if (empleado == null)
             {
                 return null;
             }
-            else
-            {
-                EmpleadoDTO empleadoDTO = _empleadoMapper.MapToEmpleadoDTO(empleado);
-                return empleadoDTO;
-            }
+
+            EmpleadoDTO empleadoDTO = _empleadoMapper.MapToEmpleadoDTO(empleado);
+            return empleadoDTO;
         }
 
         public void SaveChanges()

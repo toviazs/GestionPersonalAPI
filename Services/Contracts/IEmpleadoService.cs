@@ -10,7 +10,7 @@ namespace APIv2.Services.Contracts
         public List<EmpleadoDetalleDTO> GetAllEmpleadoDetalle();
         public EmpleadoDetalleDTO? GetEmpleadoDetalleById(int legajo);
         public EmpleadoDTO? GetById(int legajo);
-        public Empleado AddEmpleado(CreateEmpleadoDTO empDTO);
+        public EmpleadoDTO AddEmpleado(CreateEmpleadoDTO empDTO);
         bool EditEmpleado(int legajoEmpleado, EmpleadoDTO empDTO);
         public bool DeleteEmpleado(int legajo);
         public void SaveChanges();

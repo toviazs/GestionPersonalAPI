@@ -18,14 +18,12 @@ namespace APIv2.Controllers
     public class EmpleadoController : Controller
     {
         private readonly IEmpleadoService _empleadoService;
-        private readonly IEmpleadoMapper _empleadoMapper;
         private readonly ICreateEmpleadoValidator _createEmpleadoValidator;
         private readonly IEmpleadoValidator _empleadoValidator;
 
-        public EmpleadoController(IEmpleadoService empleadoService, IEmpleadoMapper empleadoMapper, ICreateEmpleadoValidator createEmpleadoValidator, IEmpleadoValidator empleadoValidator)
+        public EmpleadoController(IEmpleadoService empleadoService, ICreateEmpleadoValidator createEmpleadoValidator, IEmpleadoValidator empleadoValidator)
         {
             _empleadoService = empleadoService;
-            _empleadoMapper = empleadoMapper;
             _createEmpleadoValidator = createEmpleadoValidator;
             _empleadoValidator = empleadoValidator;
         }
@@ -110,12 +108,21 @@ namespace APIv2.Controllers
             }
 
             // Editar empleado
-            bool isEdited = _empleadoService.EditEmpleado(legajoEmp, empleado);
-            if (!isEdited)
+            try
             {
-                result.ErrorsMessages.Add("Empleado no encontrado!");
-                result.StatusCode = NotFound().StatusCode;
-                return NotFound(result);
+                bool isEdited = _empleadoService.EditEmpleado(legajoEmp, empleado);
+                if (!isEdited)
+                {
+                    result.ErrorsMessages.Add("Empleado no encontrado!");
+                    result.StatusCode = NotFound().StatusCode;
+                    return NotFound(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorsMessages.Add(ex.Message);
+                result.StatusCode = BadRequest().StatusCode;
+                return BadRequest(result);
             }
                 
             _empleadoService.SaveChanges();
@@ -168,11 +175,10 @@ namespace APIv2.Controllers
 
             try
             {
-                Empleado empleadoAgregado = _empleadoService.AddEmpleado(empleado);
+                EmpleadoDTO empleadoAgregado = _empleadoService.AddEmpleado(empleado);
                 _empleadoService.SaveChanges();
 
-                EmpleadoDTO empleadoAgregadoDTO = _empleadoMapper.MapToEmpleadoDTO(empleadoAgregado);
-                result.Results = empleadoAgregadoDTO;
+                result.Results = empleadoAgregado;
                 result.StatusCode = Ok().StatusCode;
                 return Ok(result);
             }

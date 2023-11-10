@@ -36,6 +36,7 @@ builder.Services.AddCors(options =>
         {
             policy.AllowAnyOrigin();
             policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
         });
 });
 builder.Services.AddAuthentication(options =>
